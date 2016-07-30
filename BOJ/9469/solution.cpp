@@ -16,7 +16,7 @@ int main() {
 
 		scanf("%lf %lf %lf %lf", &d, &a, &b, &p);
 
-		double k = d / (a + b);
+		double k = d / (a + b); // time
 
 		printf("%.2lf\n", p * k);
 

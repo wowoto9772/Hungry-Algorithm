@@ -27,43 +27,56 @@ int ccw(point &a, point &b, point &c) {
 		return 0;
 }
 
-struct ConvexHull{
+class ConvexHull {
+public:
 
-	int n = 0;
-	point node[5003], up[5003], down[5003];
-	point cv[5003];
+	int n;
 
-	void input(){
-		scanf("%d %d", &node[n].x, &node[n].y);
-		n++;
+	vector <point> v, u, d;
+	vector <point> c;
+
+	ConvexHull(int _n) {
+		n = _n;
+		v.resize(n), u.resize(n), d.resize(n);
+		c.resize(n << 1);
+	}
+
+	void GetInput(int p) {
+		scanf("%lld %lld", &v[p].x, &v[p].y);
 	}
 
 	int convex_hull() {
-		int iup, idown;
-		idown = iup = -1;
 
-		sort(node, node + n);
+		int iu, id;
+		id = iu = -1;
+
+		sort(v.begin(), v.end());
 
 		int cnt;
 
 		for (int i = 0; i < n; i++) {
-			while (iup>0 && ccw(up[iup - 1], up[iup], node[i]) >= 0)iup--;
-			up[++iup] = node[i];
-			while (idown > 0 && ccw(down[idown - 1], down[idown], node[i]) <= 0)idown--;
-			down[++idown] = node[i];
+			while (iu>0 && ccw(u[iu - 1], u[iu], v[i]) >= 0)iu--;
+			u[++iu] = v[i];
+			while (id > 0 && ccw(d[id - 1], d[id], v[i]) <= 0)id--;
+			d[++id] = v[i];
 		}
 
 
-		for (cnt = 0; cnt <= iup; cnt++) {
-			cv[cnt] = up[cnt];
+		for (cnt = 0; cnt <= iu; cnt++) {
+			c[cnt] = u[cnt];
 		}
-		for (int i = idown - 1; i >= 0; i--) {
-			cv[cnt++] = down[i];
+		for (int i = id - 1; i >= 0; i--) {
+			c[cnt++] = d[i];
 		}
 
 		return cnt; // convex hull's size
+
 	}
 };
+
+ll getDistance(point a, point b) {
+	return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
+}
 
 typedef point Vector;
 

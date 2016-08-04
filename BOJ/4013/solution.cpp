@@ -1,131 +1,142 @@
 #include <stdio.h>
-#include <memory.h>
 #include <limits.h>
-#include <map>
+
 #include <vector>
-#include <queue>
+#include <algorithm>
 
 using namespace std;
 
-class ele{
-public:
-	int a, c;
-};
+vector < int > lnk[2][500003];
 
-vector < vector <int> > F, R, X, GF;
+int grp[500003], stk[500003], g[500003];
 
-int n, m, top;
-int M[500003]; // point cst
-bool E[500003]; // end point
+bool vst[500003];
 
-bool v[500003];
-int stk[500003]; // for finding cycle
+int top, gtop;
 
-int G[500003]; // group id
-int C[500003]; // group cst
-int g; // group cnt
-bool GE[500003]; // group end point
-int d[500003]; // maximum dijkstra
-int e[500003]; // ending point;
+void dfs(int t, int c) {
 
-void DFN(int a){
-	v[a] = true;
-	for (int i = 0; i < F[a].size(); i++){
-		if (v[F[a][i]])continue;
-		DFN(F[a][i]);
+	if (!t) {
+		if (vst[c])return;
+		vst[c] = true;
 	}
-	stk[top++] = a;
+	else {
+		if (grp[c])return;
+		grp[c] = gtop;
+	}
+
+	for (int i = 0; i < lnk[t][c].size(); i++) {
+		dfs(t, lnk[t][c][i]);
+	}
+
+	if (!t)stk[top++] = c;
+
 }
 
-void CYC(int a){
-	G[a] = g;
-	C[g] += M[a];
-	if (E[a])GE[g] = true;
-	X[g].push_back(a); // g's member is a
-	for (int i = 0; i < R[a].size(); i++){
-		if (!G[R[a][i]]){
-			CYC(R[a][i]);
-		}
-	}
-}
+vector < vector <int> > graph;
+vector < int > gold, dp;
+vector < bool > ends;
 
-int dp[500003];
-int Max(int a, int b){ return a < b ? b : a; }
-int dy(int c){
+int dy(int c) {
+
 	if (dp[c] != -1)return dp[c];
+
 	dp[c] = 0;
 
-	for (int i = 0; i < GF[c].size(); i++){
-		dp[c] = Max(dp[c], C[c] + dy(GF[c][i]));
+	for (int j = 0; j < graph[c].size(); j++) {
+		
+		int d = graph[c][j];
+
+		dp[c] = max(dp[c], gold[d] + dy(d));
+
 	}
 
-	if (c != g && !dp[c])dp[c] = -INT_MAX;
+	if (dp[c] == 0 && !ends[c])dp[c] = INT_MIN;
 
 	return dp[c];
+
 }
 
+int main() {
 
-int main()
-{
+	int n, m;
 	scanf("%d %d", &n, &m);
 
-	F.resize(n + 1), R.resize(n + 1), X.resize(n + 1);
-
-	for (int i = 1; i <= m; i++){
+	for (int i = 1; i <= m; i++) {
 		int a, b;
 		scanf("%d %d", &a, &b);
-		F[a].push_back(b); // forward
-		R[b].push_back(a); // backward
+
+		lnk[0][a].push_back(b);
+		lnk[1][b].push_back(a);
+
 	}
 
-	top = 0;
-	for (int i = 1; i <= n; i++){
-		if (!v[i])DFN(i);
+	for (int i = 1; i <= n; i++) {
+
+		scanf("%d", &g[i]);
+
+		grp[i] = 0;
+		vst[i] = false;
+
 	}
 
-	for (int i = 1; i <= n; i++)scanf("%d", &M[i]);
+
+	gtop = top = 0;
+
+	for (int i = 1; i <= n; i++)dfs(0, i);
+
+	for (int i = n - 1; i >= 0; i--) {
+		if (grp[stk[i]])continue;
+		gtop++;
+		dfs(1, stk[i]);
+	}
+
+	// make sexy graph !
+
+
+	graph.resize(gtop + 1);
+	gold.resize(gtop + 1);
+
+	for (int i = 1; i <= n; i++) {
+
+		for (int j = 0; j < lnk[0][i].size(); j++) {
+
+			int k = lnk[0][i][j];
+
+			if (grp[i] != grp[k])graph[grp[i]].push_back(grp[k]);
+
+		}
+
+		gold[grp[i]] += g[i];
+
+	}
+
+	// graph renewal
+	for (int i = 1; i <= gtop; i++) {
+
+		sort(graph[i].begin(), graph[i].end());
+		graph[i].resize(unique(graph[i].begin(), graph[i].end()) - graph[i].begin());
+
+	}
+
+
+	dp.resize(gtop + 1);
+	ends.resize(gtop + 1);
+
+	for (int i = 1; i <= gtop; i++)dp[i] = -1;
 
 	int s, r;
 	scanf("%d %d", &s, &r);
- 
-	for (int i = 1; i <= r; i++){
-		scanf("%d", &e[i]);
-		E[e[i]] = true; // end point
+
+	for (int i = 1; i <= r; i++) {
+	
+		int a;
+		scanf("%d", &a);
+
+		ends[grp[a]] = true;
+
 	}
 
-	g = 0;
-	for (int i = top - 1; i >= 0; i--){
-		if (!G[stk[i]]){
-			g++;
-			C[g] = 0;
-			GE[g] = false;
-			CYC(stk[i]);
-		}
-	}
+	printf("%d\n", gold[grp[s]] + dy(grp[s]));
 
-	map <int, map<int, bool> > chk;
-	GF.resize(n + 1);
-
-	for (int i = 1; i <= g; i++){
-		for (int j = 0; j < X[i].size(); j++){
-			int now = X[i][j];
-			for (int k = 0; k < F[now].size(); k++){
-				int nxt = G[F[now][k]];
-				if (i != nxt && !chk[i][nxt]){
-					GF[i].push_back(nxt);
-					chk[i][nxt] = true;
-				}
-			}
-		}
-	}
-
-	g++;
-	for (int i = 1; i <= r; i++){
-		if (chk[G[e[i]]][g])continue;
-		GF[G[e[i]]].push_back(g);
-		chk[G[e[i]]][g] = true;
-	}
-
-	memset(dp, 0xff, sizeof(dp));
-	printf("%d\n", dy(G[s]));
 }

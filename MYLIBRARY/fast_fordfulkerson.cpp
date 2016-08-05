@@ -8,7 +8,7 @@ using namespace std;
 class fast_ford_fulkerson{
 public:
 
-	vector <bool> chk;
+	vector < bool > chk;
 	vector < vector <int> > cap;
 
 	int tot, src, snk;
@@ -24,7 +24,7 @@ public:
 		chk.resize(tot);
 		cap.resize(tot);
 
-		for(int i=0; i<tot; i++)cap[i].resize(tot);
+		for(int i=0; i < tot; i++)cap[i].resize(tot);
 
 	}
 
@@ -36,7 +36,7 @@ public:
 
 		if (x == snk)return true;
 
-		for (int i = 0; i <= tot; i++) {
+		for (int i = 0; i < tot; i++) {
 			if (cap[x][i] > 0) {
 				if (dfs(i)) { 
 					// exists augmenting path
@@ -57,7 +57,7 @@ public:
 
 		while (true) {
 
-			for(int i=0; i<tot; i++)chk[i] = false;
+			for(int i=0; i < tot; i++)chk[i] = false;
 
 			if (!dfs(src)) {
 				return ans;

@@ -28,14 +28,14 @@ vector<int> getEulerTrailOrCircuit() {
 
 	vector<int> circuit;
 	// 우선 트레일을 찾아본다: 시작점이 존재하는 경우
-	for (int i = 0; i < 26; i++)
+	for (int i = 1; i <= top; i++)
 		if (outdegree[i] == indegree[i] + 1) {
 			getEulerCircuit(i, circuit);
 			return circuit;
 		}
 
 	// 아니면 서킷이니, 간선에 인접한 아무 정점에서나 시작한다
-	for (int i = 0; i < 26; i++)
+	for (int i = 1; i <= top; i++)
 		if (outdegree[i]) {
 			getEulerCircuit(i, circuit);
 			return circuit;
@@ -45,32 +45,24 @@ vector<int> getEulerTrailOrCircuit() {
 	return circuit;
 }
 
-map < int, vector <int> > dmp;
 
-void solve() {
+vector <int> solve() {
 
 	vector<int> circuit = getEulerTrailOrCircuit();
 
 	// 아닌 경우 방문 순서를 뒤집은 뒤 간선들을 모아 정답을 출력
 	reverse(circuit.begin(), circuit.end());
 
-	for (int i = 0; i < dmp[circuit[0]].size()-1; i++) {
-		printf("%d ", dmp[circuit[0]][i]);
-	}
-
-	for (int i = 0; i < circuit.size(); i++) {
-		int c = circuit[i];
-		printf("%d ", dmp[c].back());
-	}
-
-	return;
+	return circuit;
 }
+
+map < int, vector <int> > dmp;
+map < vector <int>, int > mp;
+
+int n, m;
 
 void make_graph() {
 
-	map < vector <int>, int > mp;
-
-	int n, m;
 	scanf("%d %d", &n, &m);
 
 	for (int i = 1; i <= n - m + 1; i++) {
@@ -119,6 +111,16 @@ void make_graph() {
 int main() {
 
 	make_graph();
-	solve();
-	
+
+	vector <int> ans = solve();
+
+	for (int i = 0; i < dmp[ans[0]].size() - 1; i++) {
+		printf("%d ", dmp[ans[0]][i]);
+	}
+
+	for (int i = 0; i < ans.size(); i++) {
+		int c = ans[i];
+		printf("%d ", dmp[c].back());
+	}
+
 }

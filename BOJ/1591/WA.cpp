@@ -7,9 +7,9 @@
 #include <algorithm>
 using namespace std;
 
-int adj[2503][2503];
+int adj[2003][2003];
 
-int indegree[2503], outdegree[2503];
+int indegree[2003], outdegree[2003];
 int top;
 
 // 유향 그래프의 인접 행렬 adj 가 주어질 때 오일러 서킷을 계산한다. 
@@ -54,16 +54,13 @@ void solve() {
 	// 아닌 경우 방문 순서를 뒤집은 뒤 간선들을 모아 정답을 출력
 	reverse(circuit.begin(), circuit.end());
 
+	for (int i = 0; i < dmp[circuit[0]].size()-1; i++) {
+		printf("%d ", dmp[circuit[0]][i]);
+	}
+
 	for (int i = 0; i < circuit.size(); i++) {
 		int c = circuit[i];
-		if (i == i) {
-			for (int j = 0; j < dmp[c].size(); j++) {
-				printf("%d ", dmp[c][j]);
-			}
-		}
-		else {
-			printf("%d ", dmp[c].back());
-		}
+		printf("%d ", dmp[c].back());
 	}
 
 	return;

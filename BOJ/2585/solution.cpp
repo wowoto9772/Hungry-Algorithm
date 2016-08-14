@@ -18,9 +18,11 @@ int main() {
 	scanf("%d %d", &n, &k);
 
 	x[0] = y[0] = 0;
+
 	for (int i = 1; i <= n; i++) {
 		scanf("%d %d", &x[i], &y[i]);
 	}
+	
 	x[n + 1] = y[n + 1] = 10000;
 
 	for (int i = 0; i <= n; i++) {

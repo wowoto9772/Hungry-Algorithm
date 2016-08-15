@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <set>
-
 #include <algorithm>
 
 #include <map>
@@ -30,13 +28,11 @@ int main() {
 		}
 	}
 
-	set <ll> sexy;
-
 	sort(str, str + s);
 
-	while (true) {
+	int ans = 0;
 
-		ll v = 0LL;
+	while (true) {
 
 		bool flag = true;
 
@@ -48,11 +44,7 @@ int main() {
 
 		if (flag) {
 
-			for (int i = 0; i < s; i++) {
-				v = v * tp + c[str[i]];
-			}
-
-			sexy.insert(v);
+			ans++;
 
 		}
 
@@ -60,6 +52,6 @@ int main() {
 
 	}
 
-	printf("%d\n", sexy.size());
+	printf("%d\n", ans);
 
 }

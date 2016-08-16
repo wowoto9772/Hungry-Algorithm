@@ -9,9 +9,7 @@ int main() {
 
 	int n = 6;
 
-	for (int i = 1; i <= n; i++) {
-		scanf("%d", &c[i]);
-	}
+	for (int i = 1; i <= n; i++)scanf("%d", &c[i]);
 
 	int ans = c[6];
 

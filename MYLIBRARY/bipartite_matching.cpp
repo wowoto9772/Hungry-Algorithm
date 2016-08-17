@@ -55,7 +55,7 @@ public:
 		int ret = 0;
 
 		for (int i = 0; i < n; i++) {
-			if (ri[i] == -1) {
+			if (ri[i] == -1) { // not matched
 				for (int j = 0; j < n; j++)vst[j] = false;
 				ret += augmenting(i);
 			}

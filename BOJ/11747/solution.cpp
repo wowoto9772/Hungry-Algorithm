@@ -1,7 +1,4 @@
 #include <stdio.h>
-#include <set>
-
-using namespace std;
 
 int v[1003];
 bool chk[10003];

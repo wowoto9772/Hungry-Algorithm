@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <limits.h>
 
+#include <functional>
 #include <queue>
 #include <vector>
 
@@ -10,6 +11,8 @@ using namespace std;
 
 #define c first
 #define v second
+
+#define LMAX 1LL<<60
 
 vector < vector < pair<ll, int> > > lnk;
 
@@ -33,9 +36,9 @@ int main() {
 
 	}
 
-	priority_queue < pair <ll, int > > q;
+	priority_queue < pair <ll, int >, vector < pair <ll, int> >, greater< pair <ll, int> > > q;
 
-	for (int i = 1; i <= n; i++)d[i] = INT_MAX;
+	for (int i = 1; i <= n; i++)d[i] = LMAX;
 
 	for (int i = 1; i <= k; i++) {
 
@@ -71,14 +74,14 @@ int main() {
 
 	}
 
-	ll ans = LLONG_MAX;
+	ll ans = LMAX;
 
 	for (int i = 1; i <= n; i++) {
 		if (nt[i])continue;
 		ans = min(ans, d[i]);
 	}
 
-	if (ans == INT_MAX)ans = -1;
+	if (ans == LMAX)ans = -1;
 
 	printf("%lld\n", ans);
 

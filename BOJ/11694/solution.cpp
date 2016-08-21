@@ -2,19 +2,50 @@
 
 int main() {
 
-	int t;
-	scanf("%d", &t);
+	int n;
+	scanf("%d", &n);
 
-	int m = 0;
+	int nim = 0;
 
-	while (t--) {
-		if (m > 1)m += 2;
-		else
-			m++;
+	int one = 0;
+
+	for (int i = 1; i <= n; i++) {
+		int x;
+		scanf("%d", &x);
+
+		nim ^= x;
+
+		one += x == 1;
 	}
 
-	m %= 2;
+	// misere play
 
-	if(m)printf("")
+	int winner = 0;
+
+	if (one == n) {
+		if (nim) {
+			// second win
+			winner = 2;
+		}
+		else {
+			winner = 1;
+		}
+	}
+	else {
+		if (nim) {
+			// first win
+			winner = 1;
+		}
+		else {
+			winner = 2;
+		}
+	}
+
+	if (winner == 1) {
+		printf("koosaga");
+	}
+	else {
+		printf("cubelover");
+	}
 
 }

@@ -10,8 +10,12 @@ int main(){
 
 	int s = strlen(str);
 
-	if(s == 1){
-		if(str[0] == 'a')printf("z");
+	int x = 0;
+	for(int i=0; i<s; i++)if(str[i] == 'a')x++;
+
+	if(x == s){
+		for(int j=1; j<s; j++)printf("a");
+		printf("z");
 	}else{
 
 		for(int i=0; i<s; i++){

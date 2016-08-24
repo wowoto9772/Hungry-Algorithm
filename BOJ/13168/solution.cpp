@@ -63,7 +63,7 @@ int main(){
 		if(!strcmp(str, "Mugunghwa") || !strcmp(str, "ITX-Cheongchun") || !strcmp(str, "ITX-Saemaeul")){
 			d[a][b][1] = d[b][a][1] = 0;
 			d[a][b][0] = d[b][a][0] = min(d[a][b][0], c);			
-		}else if(!strcmp(str, "S-Train") || !strcmp(str, "V-Train")){
+		}else if(!strcmp(str, "S-Train") || !strcmp(str, "V-Train")){ // discount
 			d[a][b][1] = d[b][a][1] = min(d[a][b][1], c>>1);
 			d[a][b][0] = d[b][a][0] = min(d[a][b][0], c);
 		}else{

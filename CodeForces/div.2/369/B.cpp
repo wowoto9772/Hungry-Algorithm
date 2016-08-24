@@ -14,55 +14,14 @@ int main(){
 		scanf("%d", &p[i]);
 	}
 
-	p[n] = s;
+	sort(p, p+n);
 
-	sort(p, p+1+n);
-
-	int x = 0;
-
-	for(int i=0; i<=n; i++){
-		if(p[i] == s){
-			x = i;
-			break;
-		}
+	if(n == 1)printf("0");
+	else{
+		int ans = abs(s-p[0]) + (p[n-2]-p[0]);
+		ans = min(ans, min(abs(p[n-1]-s), abs(s-p[1])) + (p[n-1]-p[1]));
+		ans = min(ans, abs(p[n-2]-s) + (p[n-2]-p[0]));
+		printf("%d", ans);
 	}
-
-
-	long long ri = 0;
-
-	int y = s;
-	int z = 0;
-
-	for(int i=x+1; i<=n && z+1 < n; i++){
-		ri += p[i] - y;
-		y = p[i];
-		z++;
-	}
-
-	for(int i=x-1; i>=0 && z+1 < n; i--){
-		ri += y - p[i];
-		y = p[i];
-		z++;
-	}
-
-	long long le = 0;
-
-	y = s;
-
-	z = 0;
-
-	for(int i=x-1; i>=0 && z+1 < n; i--){
-		le += y - p[i];
-		y = p[i];
-		z++;
-	}
-
-	for(int i=x+1; i<=n && z+1 < n; i++){
-		le += p[i] - y;
-		y = p[i];
-		z++;
-	}
-
-	printf("%lld\n", min(le, ri));
 
 }

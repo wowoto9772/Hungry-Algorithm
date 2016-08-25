@@ -1,45 +1,43 @@
 #include <stdio.h>
-#include <string>
 
-using namespace std;
-
-int o[2000003];
-int c[4];
+int c[2][2];
 int d[4];
 
 int main(){
 
-	for(int i=0; i<4; i++)scanf("%d", &c[i]);
+	scanf("%d %d %d %d", &c[0][0], &c[0][1], &c[1][0], &c[1][1]);
 
-	// 00 01 10 11
-	
-	for(int i=2; i<=2*c[0]; i+=2)o[i]++;
+	if((c[0][0]|c[0][1]|c[1][0]|c[1][1])==0)printf("1"); // or 0
+	else{
+		
+		int zero, one;
 
-	// even : 0s
-	// odd  : 1s
+		for(zero=0; zero*(zero-1)/2 < c[0][0]; zero++);
+		for(one=0; one*(one-1)/2 < c[1][1]; one++);
 
-	for(int i=1; i<=2*c[0]+1 && d[3] < c[3]; i+=2){
-		int l = (i-1) >> 1;
-		int r = c[0] - l;
-		if(d[1] + l <= c[1] && d[2] + r <= c[2]){
-			c[3]--;
-			d[1] += l;
-			d[2] += r;
-			d[3]++;
-			o[i]++;
-			i-=2;
-			continue;
-		}
-	}
+		if(zero == 0 && (c[1][0]|c[0][1]))zero++;
+		if(one == 0 && (c[0][1]|c[1][0]))one++;
 
-	if(d[1] == c[1] && d[2] == c[2] && d[3] == c[3]){
-		for(int i=1; i<=(c[0]*2); i++){
-			for(int j=1; j<=o[i]; j++){
-				printf("%d", i&1);
+		if(zero*(zero-1)/2 == c[0][0] && one*(one-1)/2 == c[1][1]){
+			int tot = zero + one;
+			if(c[0][1]+c[1][0] == zero*one){
+				for(int i=1; i<=tot; i++){
+					if(c[0][1] >= one){
+						c[0][1] -= one;
+						zero--;
+						printf("0");
+					}else{
+						one--;
+						printf("1");
+					}
+				}
+			}else{
+				printf("Impossible\n");
 			}
+		}else{
+			printf("Impossible");
 		}
-	}else{
-		printf("Impossible\n");
+
 	}
 
 }

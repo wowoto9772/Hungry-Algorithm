@@ -32,7 +32,7 @@ int main(){
 					}
 				}
 			}else{
-				printf("Impossible\n");
+				printf("Impossible");
 			}
 		}else{
 			printf("Impossible");

@@ -13,6 +13,8 @@ char org[LEN], ptn[LEN];
 int pi[LEN];
 int pl, ol;
 
+// 1 base only
+
 void getPi(){
 
 	pi[j][1] = 0;

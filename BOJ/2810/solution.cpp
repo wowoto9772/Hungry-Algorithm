@@ -3,29 +3,27 @@
 
 using namespace std;
 
-int c[103];
+char str[53];
 
 int main(){
 
-	int n, m;
-	scanf("%d %d", &n, &m);
+	int n;
+	scanf("%d", &n);
 
-	for(int i=0; i<n; i++){
-		scanf("%d", &c[i]);
-	}
+	scanf("%s", str);
 
-	sort(c, c+n);
+	int c = 1;
+	int t = 0;
 
-	int ans = 0;
-
-	for(int i=0; i<n && c[i] <= m; i++){
-		for(int j=i+1; j<n && c[i] + c[j] <= m; j++){
-			for(int k=j+1; k<n && c[i] + c[j] + c[k] <= m; k++){
-				ans = max(ans, c[i] + c[j] + c[k]);
-			}
+	for(int i=0; i<n;){
+		if(str[i] == 'S')c++, i++;
+		else if(str[i] == 'L'){
+			t++;
+			if(!(t&1))c++;
+			i++;
 		}
 	}
 
-	printf("%d\n", ans);
+	printf("%d\n", min(c, n));
 
 }

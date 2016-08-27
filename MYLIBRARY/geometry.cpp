@@ -41,11 +41,11 @@ public:
 		c.resize(n << 1);
 	}
 
-	void GetInput(int p) {
+	void getInput(int p) {
 		scanf("%lld %lld", &v[p].x, &v[p].y);
 	}
 
-	int convex_hull() {
+	int solve() {
 
 		int iu, id;
 		id = iu = -1;

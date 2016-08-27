@@ -45,6 +45,7 @@ public:
 		scanf("%lld %lld", &v[p].x, &v[p].y);
 	}
 
+	/* return convex hull's size. and v-1 is the number of convex hull's points */
 	int solve() {
 
 		int iu, id;
@@ -69,7 +70,7 @@ public:
 			c[cnt++] = d[i];
 		}
 
-		return cnt; // convex hull's size
+		return cnt;
 
 	}
 };

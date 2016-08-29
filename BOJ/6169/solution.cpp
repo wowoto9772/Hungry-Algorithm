@@ -1,35 +1,37 @@
 #include <stdio.h>
-#include <algorithm>
-
-using namespace std;
-
-int o[30003], t[30003];
-
-int x[30003];
 
 int main(){
 
-	int n;
-	scanf("%d", &n);
+	int t, m, u, f, d;
+	scanf("%d %d %d %d %d", &t, &m, &u, &f, &d);
 
-	for(int i=1; i<=n; i++){
+	int cur = 0;
+	int ans = 0;
 
-		scanf("%d", &x[i]);
+	bool imp = false;
 
-		o[i] = o[i-1] + (x[i] == 2);
+	for(int i=1; i<=m; i++){
 
-	}
+		char x;
+		scanf(" %c", &x);
 
-	for(int i=n; i>=1; i--){
-		t[i] = t[i+1] + (x[i] == 1);
-	}
+		if(imp)continue;
 
-	int ans = n;
+		if(x == 'u' || x == 'd'){
+			cur += (u+d);
+			if(cur > t){
+				imp = true;
+				continue;
+			}
+		}else{
+			cur += f<<1;
+			if(cur > t){
+				imp = true;
+				continue;
+			}
+		}
 
-	for(int i=0; i<=n; i++){
-
-		ans = min(ans, o[i] + t[i+1]);
-
+		ans = i;
 	}
 
 	printf("%d\n", ans);

@@ -1,4 +1,4 @@
-#include <stdio.h>
+<pre class = "line-numbers"><code class = "language-cpp"#include &lt;stdio.h&gt;
 
 int p[203];
 
@@ -9,7 +9,7 @@ int main(){
 		
 		if(!(n|k))break;
 
-		for(int i=1; i<n; i++){
+		for(int i=1; i&lt;n; i++){
 			scanf("%d", &p[i]);
 		}
 
@@ -18,3 +18,4 @@ int main(){
 	}
 
 }
+</code></pre>

@@ -30,7 +30,7 @@ int main(){
 	int ans = 0;
 
 	for(int i=1; i<=n; i++){
-		
+
 		for(int j=0; j<2; j++)scanf("%lf %lf %lf", &vx[j], &vy[j], &vz[j]);
 
 		double x = vx[0] - vx[1] * d;

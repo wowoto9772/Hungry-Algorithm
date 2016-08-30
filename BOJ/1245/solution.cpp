@@ -7,8 +7,8 @@
 
 using namespace std;
 
-bool chk[103][103];
-int h[103][103];
+bool chk[103][73];
+int h[103][73];
 
 int dr[] = {-1, 0, 1, -1, 1, -1, 0, 1};
 int dc[] = {-1, -1, -1, 0, 0, 1, 1, 1};

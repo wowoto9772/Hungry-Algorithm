@@ -1,16 +1,8 @@
 #include <stdio.h>
 
-
-using namespace std;
-
-using ll = long long;
-
+#define ll long long
 
 #define mod 1000000007LL
-
-ll fac[1003] = {1,};
-
-int x[1003];
 
 int n, k;
 
@@ -48,8 +40,9 @@ int main(){
 		int c = 0;
 
 		for(int i=1; i<=n; i++){
-			scanf("%d", &x[i]);
-			if(x[i] == 1)c++;
+			int x;
+			scanf("%d", &x);
+			if(x)c++;
 		}
 
 		printf("Case #%d: ", ++tc);

@@ -17,11 +17,13 @@ int pl, ol;
 
 void getPi(){
 
-	pi[j][1] = 0;
+	int p = 0;
 
-	for(int i=2; i<=pl[j]; i++){
+	pi[1] = 0;
 
-		while(p && (ptn[p+1] != ptn[i]))p = pi[j][p];
+	for(int i=2; i<=pl; i++){
+
+		while(p && (ptn[p+1] != ptn[i]))p = pi[p];
 		if(ptn[p+1] == ptn[i])p++;
 		pi[i] = p;
 
@@ -29,26 +31,27 @@ void getPi(){
 
 }
 
-void getAns(){
+// count ptn in org
 
+int getAns(){
+
+	int ret = 0;
 
 	int p = 0;
 
 	for(int i=1; i<=ol; i++){
 
-		while(p && (ptn[j][p+1] != org[i]))p = pi[j][p];
-		if(ptn[j][p+1] == org[i])p++;
-		if(p == pl[j]){
+		while(p && (ptn[p+1] != org[i]))p = pi[p];
+		if(ptn[p+1] == org[i])p++;
+		if(p == pl){
 			// find !
-			printf("YES\n");
-			return ;
+			p = pi[p];
+			ret++;
 		}
 
-
-		// cannot find
-		printf("NO\n");
-
 	}
+
+	return ret;
 
 }
 
@@ -62,6 +65,6 @@ int main(){
 	scanf("%s", org);
 	ol = strlen(org);
 
-	getAns();
+	printf("%d\n", getAns());
 
 }

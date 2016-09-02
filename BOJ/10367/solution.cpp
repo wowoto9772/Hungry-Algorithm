@@ -65,6 +65,8 @@ int main(){
 
 		}
 
+		// only remains maximum spanning tree.
+
 		printf("Case #%d: %d %d\n", ++tc, ans, maxi);
 
 	}

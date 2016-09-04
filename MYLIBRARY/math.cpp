@@ -15,3 +15,18 @@ pair<long long, long long> extended_gcd(long long a, long long b) {
 long long modinverse(long long a, long long m) {
 	return (extended_gcd(a, m).first % m + m) % m;
 }
+
+/* Find a^p mod m */
+long long modpower(long long a, long long p, long long m){
+	
+	long long r = 1;
+	
+	while(p){
+		if(p&1)r = (r*a) % m;
+		a = (a*a) % m;
+		p >>= 1;
+	}
+
+	return r;
+}
+

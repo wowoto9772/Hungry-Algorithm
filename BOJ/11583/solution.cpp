@@ -57,6 +57,8 @@ int main(){
 			
 		}
 
+		// minimum ! (2 or 5) : greedy
+
 		printf("%d\n", min(dp[0][n], dp[1][n]));
 
 	}

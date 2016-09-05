@@ -26,12 +26,10 @@ int main(){
 			int v;
 			scanf("%d", &v);
 
-			int j = v;
-
 			fac[0][i] = fac[1][i] = 0;
 
-			while(!(j&1)){
-				j >>= 1;
+			while(!(v&1)){
+				v >>= 1;
 				fac[0][i]++;
 			}
 
@@ -49,15 +47,13 @@ int main(){
 			dp[0][i] = dp[1][i] = INT_MAX;
 
 			for(int j=i-1; j>=i-k && j>=1; j--){
-				
+
 				dp[0][i] = min(dp[0][i], dp[0][j] + fac[0][i]);
 				dp[1][i] = min(dp[1][i], dp[1][j] + fac[1][i]);
 
 			}
-			
-		}
 
-		// minimum ! (2 or 5) : greedy
+		}
 
 		printf("%d\n", min(dp[0][n], dp[1][n]));
 

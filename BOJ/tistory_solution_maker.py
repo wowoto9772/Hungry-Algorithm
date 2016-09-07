@@ -1,7 +1,7 @@
 src = open("./solution.cpp", "r");
 dat = open("./tistory.out", "w");
 
-header = '<pre class = "line-numbers"><code class = "language-cpp"'
+header = '<pre class = "line-numbers"><code class = "language-cpp">'
 footer = '</code></pre>'
 
 dat.writelines(header)

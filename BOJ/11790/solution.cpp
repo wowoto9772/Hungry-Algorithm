@@ -1,37 +1,50 @@
 #include <stdio.h>
 
-#define ll long long
+#include <limits.h>
+
+#include <vector>
+
+#include <algorithm>
+
+using namespace std;
+
 #define mod 1000000007LL
+#define ll long long
 
-/* Find a^p mod m */
-long long modpower(long long a, long long p, long long m){
-
-	long long r = 1;
-
-	while(p){
-		if(p&1)r = (r*a) % m;
-		a = (a*a) % m;
-		p >>= 1;
-	}
-
-	return r;
-}
+#define HALF (10000000)
+#define FULL (100000000000000L)
 
 bool p[10000003];
-ll P[2000003];
 
-int top;
+vector < pair <ll, ll> > val;
+
+vector < pair <ll, ll> > ans;
 
 int main(){
 
-	for(int i=2; i*i <= 10000000; i++){
+	for(int i=2; i*i <= HALF; i++){
 		if(!p[i]){
-			for(int j=i*i; j<=10000000; j+=i)p[j] = true;
+			for(int j=i*i; j<=HALF; j+=i)p[j] = true;
 		}
 	}
 
-	for(int i=2; i<=10000000; i++){
-		if(!p[i])P[top++] = i;
+	for(ll i=2; i<=HALF; i++){
+		if(!p[i]){
+			for(ll j=i*i; j<=FULL; j*=i){
+				val.emplace_back(j, i);
+				if(j > FULL/i)break;
+			}
+		}
+	}
+
+	sort(val.begin(), val.end());
+
+	ans.emplace_back(1LL, 1LL); // defaults
+
+	for(int i=0; i<val.size(); i++){
+
+		ans.emplace_back(val[i].first, (ans.back().second * (val[i].second % mod)) % mod);
+
 	}
 
 	int t;
@@ -41,26 +54,27 @@ int main(){
 
 	while(t--){
 
-		ll v;
-		scanf("%lld", &v);
+		ll x;
+		scanf("%lld", &x);
 
-		printf("Case %d: ", ++tc);
+		int l = 0, r = ans.size()-1, m;
 
-		ll ans = 1;
+		int pans = 0;
 
-		for(ll i=0; P[i]*P[i] <= v && i < top; i++){
-			ll c = P[i];
-			int m = 0;
-			while(c <= v){
-				m++;
-				c *= P[i];
+		while(l <= r){
+			
+			m = (l+r) >> 1;
+
+			if(ans[m].first <= x){
+				pans = max(pans, m);
+				l = m + 1;
+			}else{
+				r = m - 1;
 			}
-			m--;
-			ans *= modpower(P[i], m, mod);
-			ans %= mod;
+
 		}
 
-		printf("%lld\n", ans);
+		printf("Case %d: %lld\n", ++tc, ans[pans].second);
 
 	}
 

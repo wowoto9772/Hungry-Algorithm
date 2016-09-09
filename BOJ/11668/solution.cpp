@@ -86,6 +86,8 @@ int main(){
 
 	for(int i=1; i<=p; i++){
 		for(int j=i+1; j<=p; j++){
+
+			// fuck same source
 			if(P[i].A != P[j].A && meets(P[i], P[j])){
 				lnk[i].push_back(j);
 				lnk[j].push_back(i);

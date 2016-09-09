@@ -101,20 +101,20 @@ int main(){
 	bool can = true;
 
 	for(int i=1; i<=p && can; i++){
-		
+
 		if(color[i])continue;
 
 		bool flag = true;
-	
+
 		color[i] = 1;
 		q.push(i);
 
 		while(!q.empty() && flag){
-		
+
 			int f = q.front();q.pop();
 
 			for(int j=0; j<lnk[f].size() && flag; j++){
-				
+
 				int g = lnk[f][j];
 
 				if(color[g]){

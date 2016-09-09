@@ -13,6 +13,14 @@ struct point{
 	}
 };
 
+class edge{
+	point A, B;
+	edge(){}
+	edge(point _A, point _B){
+		A = _A, B = _B;
+	}
+};
+
 int ccw(point &a, point &b, point &c) {
 	ll dx1, dx2, dy1, dy2;
 	dx1 = b.x - a.x;
@@ -25,6 +33,43 @@ int ccw(point &a, point &b, point &c) {
 	else if (ret > 0)return 1;
 	else
 		return 0;
+}
+
+bool specialmeets(const edge &L, const edge &R){
+	
+	int Llx = min(L.A.x, L.B.x), Lrx = max(L.A.x, L.B.x);
+	int Lly = min(L.A.y, L.B.y), Lry = max(L.A.y, L.B.y);
+
+	int Rlx = min(R.A.x, R.B.x), Rrx = max(R.A.x, R.B.x);
+	int Rly = min(R.A.y, R.B.y), Rry = max(R.A.y, R.B.y);
+
+	if(max(Llx, Rlx) <= min(Lrx, Rrx)){
+		if(max(Lly, Rly) <= min(Lry, Rry)){
+			return true;
+		}
+	}
+
+	return false;
+
+}
+
+bool meets(const edge &L, const edge &R){
+
+	if(ccw(L.A, L.B, R.A) == 0 && 0 == ccw(L.A, L.B, R.B)){
+		
+		// on same line
+		return specialmeets(L, R);
+
+	}
+
+	if(ccw(L.A, L.B, R.A) * ccw(L.A, L.B, R.B) <= 0){
+		if(ccw(R.A, R.B, L.A) * ccw(R.A, R.B, L.B) <= 0){
+			return true;
+		}
+	}
+
+	return false;
+
 }
 
 class ConvexHull {

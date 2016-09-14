@@ -12,8 +12,6 @@
 
 using namespace std;
 
-const double inf = (-987654321.87654321);
-
 char str[103][5];
 
 int c[103][103];
@@ -54,13 +52,13 @@ int main(){
 				if(c[i][j]){
 					logv[i][j] = ( log((double)c[i][j]) - log((double)tot) );
 				}else{
-					logv[i][j] = ( inf );
+					logv[i][j] = ( log(0.0) );
 				}
 			}
 
 		}
 
-		for(int i=0; i<n; i++)for(int j=0; j<=m; j++)dp[i][j] = inf;
+		for(int i=0; i<n; i++)for(int j=0; j<=m; j++)dp[i][j] = log(0.0);
 
 		dp[src][0] = 0.0;
 
@@ -74,7 +72,7 @@ int main(){
 			}
 		}
 
-		double maxi = inf;
+		double maxi = log(0.0);
 
 		int fin = -1;
 

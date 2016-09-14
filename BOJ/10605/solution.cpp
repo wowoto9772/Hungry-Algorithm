@@ -104,7 +104,11 @@ int main(){
 
 				int cur = ans[i].back().v + 1;
 
-				for(int lim = cur-1; lim >= 1; lim--){
+				int l = 1, r = cur - 1, lim;
+
+				while(l <= r){
+
+					lim = (l+r) >> 1;
 
 					int tot = lim;
 
@@ -115,10 +119,14 @@ int main(){
 
 					if(tot >= 0){
 						cur = min(cur, lim);
-					}				
+						r = lim - 1;
+					}else{
+						l = lim + 1;
+					}
 				}
 
 				ret += cur;
+
 			}
 		}
 

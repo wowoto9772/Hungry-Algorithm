@@ -47,7 +47,7 @@ int main(){
 		lnk[1][b].push_back(a);
 	}
 
-	for(int i=0; i<top; i++)dfs(0, i);
+	for(int i=1; i<=n; i++)dfs(0, i);
 
 	for(int i=top-1; i>=0; i--){
 		if(grp[stk[i]])continue;

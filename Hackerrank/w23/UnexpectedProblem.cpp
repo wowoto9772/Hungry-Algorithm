@@ -44,6 +44,19 @@ int main(){
 
     int T = (pl - pi[pl]);
 
+    int c = pi[pl];
+
+    while(c){
+
+        if(T == c - pi[c]){
+            c = pi[c];
+        }else{
+            T = pl;
+            break;
+        }
+
+    }
+
     int m;
     scanf("%d", &m);
 

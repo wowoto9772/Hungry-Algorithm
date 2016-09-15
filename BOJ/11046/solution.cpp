@@ -32,11 +32,8 @@ int main(){
 
         if(r < i+A[i])r = i+A[i], p = i;
 
-//        printf("%d ", A[i]);
-
     }
 
-//    printf("\n");
 
     // for even length
 
@@ -59,11 +56,7 @@ int main(){
 
         if(r < i+B[i])r = i+B[i], p = i;
 
-//        printf("%d ", B[i]);
-
     }
-
-//    printf("\n");
 
     int q;
     scanf("%d", &q);
@@ -77,27 +70,22 @@ int main(){
 
         int c = b-a+1;
 
-        if(c == 1)printf("1\n");
-        else{
+        if(c&1){
+            int k = (a+b)>>1;
+            if(A[k] >= (c>>1))printf("1\n");
+            else
+                printf("0\n");
+        }else{
+            a = a*2-1;
+            b = b*2-1;
 
-            if(c&1){
-                int k = (a+b)>>1;
-                if(A[k] >= (c>>1))printf("1\n");
-                else
-                    printf("0\n");
-            }else{
-                a = a*2-1;
-                b = b*2-1;
+            int k = (a+b)>>1;
 
-                int k = (a+b)>>1;
+            int c = b - k;
 
-                int c = b - k;
-
-                if(B[k] >= c)printf("1\n");
-                else
-                    printf("0\n");
-            }
-
+            if(B[k] >= c)printf("1\n");
+            else
+                printf("0\n");
         }
 
     }

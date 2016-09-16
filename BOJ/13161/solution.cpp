@@ -106,7 +106,7 @@ struct MaxFlowDinic // V^2 * E
 };
 
 #define src (0)
-#define snk (2*n+1)
+#define snk (n+1)
 
 int ty[503];
 int c[503][503];
@@ -118,7 +118,7 @@ int main(){
 
     MaxFlowDinic mf;
 
-    mf.Init(2*n+2);
+    mf.Init(n+2);
 
     for(int i=1; i<=n; i++){
 
@@ -138,15 +138,14 @@ int main(){
     for(int i=1; i<=n; i++)for(int j=1; j<=n; j++)scanf("%d", &c[i][j]);
 
     for(int i=1; i<=n; i++){
-        mf.AddEdge(i, n+i, INT_MAX);
         if(ty[i] == 1){
             mf.AddEdge(src, i, INT_MAX);
         }else if(ty[i] == 2){
-            mf.AddEdge(n+i, snk, INT_MAX);
+            mf.AddEdge(i, snk, INT_MAX);
         }
         for(int j=1; j<=n; j++){
             if(i == j)continue;
-            mf.AddEdge(n+i, j, c[i][j]);
+            mf.AddEdge(i, j, c[i][j]);
         }
     }
 

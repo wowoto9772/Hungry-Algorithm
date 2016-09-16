@@ -157,17 +157,10 @@ int main(){
     vector < int > some, others;
 
     for(int i=1; i<=n; i++){
-        if(ty[i] == 1){
+        if(mf.vst[i]){
             some.push_back(i);
-        }else if(ty[i] == 2){
+        }else{
             others.push_back(i);
-        }
-        else if(ty[i] == 3){
-            if(mf.vst[i]){
-                some.push_back(i);
-            }else{
-                others.push_back(i);
-            }
         }
     }
 

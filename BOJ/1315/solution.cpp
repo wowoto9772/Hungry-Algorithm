@@ -5,8 +5,6 @@
 using namespace std;
 
 int dp[1003][1003];
-int gwp[1003][1003];
-int gqw[1003][1003];
 
 int wp[1003][1003], rq[1003][1003], cq[1003][1003];
 

@@ -37,11 +37,11 @@ int main(){
     for(int i=1; i<=1000; i++)for(int j=1; j<=1000; j++)dp[i][j] = -1;
 
     for(int i=1; i<=n; i++){
-        int _x, _y, a;
-        scanf("%d %d %d", &_x, &_y, &a);
-        wp[_x][_y] += a;
-        rq[_x][_y]++;
-        cq[_x][_y]++;
+        int x, y, a;
+        scanf("%d %d %d", &x, &y, &a);
+        wp[x][y] += a;
+        rq[x][y]++;
+        cq[x][y]++;
     }
 
 

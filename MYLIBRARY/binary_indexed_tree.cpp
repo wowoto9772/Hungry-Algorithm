@@ -13,12 +13,14 @@ public:
 		S = n;
 		T.resize(S + 1);
 	}
+
 	void Update(int p, int v){
 		while (p <= S){
 			T[p] += v;
 			p += p & (-p);
 		}
 	}
+
 	long long Sum(int p){
 		long long ret = 0;
 		while (p > 0){

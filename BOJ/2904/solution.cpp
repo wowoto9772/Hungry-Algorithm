@@ -58,6 +58,8 @@ int main(){
 
     int ans = 1;
 
+    // average
+
     for(int i=0; i<p.size(); i++){
 
         c[i] /= n;

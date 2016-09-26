@@ -1,34 +1,31 @@
 #include <cstdio>
 
-#include <string.h>
+#include <cstring>
+
+#include <algorithm>
 
 using namespace std;
 
 char str[1000003];
+int a[1000003], b[1000003];
 
 int main(){
 
     int n;
     scanf("%d", &n);
 
-    scanf("%s", str);
+    scanf("%s", str+1);
 
-    int c = 0;
-
-    for(int i=0; i<n; i++){
-        if(str[i] == 'B'){
-            c++;
-            int l = i;
-            for(int j=i+1; j<n; j++){
-                if(str[j] == 'A'){
-                    break;
-                }
-                l = j;
-            }
-            i = l;
+    for(int i=1; i<=n; i++){
+        if(str[i] == 'A'){
+            a[i] = a[i-1];
+            b[i] = 1 + min(a[i-1], b[i-1]);
+        }else{
+            b[i] = b[i-1];
+            a[i] = 1 + min(a[i-1], b[i-1]);
         }
     }
 
-    printf("%d\n", c);
+    printf("%d\n", a[n]);
 
 }

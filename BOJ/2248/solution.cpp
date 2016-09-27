@@ -1,28 +1,57 @@
-#include <stdio.h>
+#include <cstdio>
 
-int dp[33][33];
-int L;
+using ll = long long;
 
-int dy(int n, int l){
+ll dp[33][33];
 
-	if (!n)return 1;
-	else if (dp[n][l] != -1)return dp[n][l];
+ll dy(int n, int m){
 
-	if (l == L)dp[n][l] = 1;
-	else{
-		dp[n][l] = dy(n - 1, l + 1);
-		dp[n][l] += dy(n - 1, l);
-	}
+    ll &ret = dp[n][m];
 
-	return dp[n][l];
+    if(ret != -1)return ret;
+
+    if(n == 0)return ret = 1;
+
+    ret = dy(n-1, m);
+    if(m)ret += dy(n-1, m-1);
+
+    return ret;
+
+}
+
+int ans[33];
+ll k;
+
+void findAns(int n, int m){
+
+    if(n == 0)return ;
+
+    ll flg = dy(n-1, m);
+
+    if(k < flg){
+        ans[n] = 0;
+        findAns(n-1, m);
+    }else{
+        ans[n] = 1;
+        k -= flg;
+        findAns(n-1, m-1);
+    }
 
 }
 
 int main(){
 
-	int n;
-	scanf("%d %d", &n, &L);
+    int n, m;
+    scanf("%d %d %lld", &n, &m, &k);
 
-	printf("%d\n", dy(n-1, 0));
+    for(int i=0; i<=n; i++)for(int j=0; j<=m; j++)dp[i][j] = -1;
+
+    k--;
+
+    dy(n, m);
+
+    findAns(n, m);
+
+    for(int i=n; i>=1; i--)printf("%d", ans[i]);
 
 }

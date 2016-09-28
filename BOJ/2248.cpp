@@ -6,7 +6,7 @@ int N, L, l;
 
 ll dp[33][33];
 
-int num[33], ans[33];
+int ans[33];
 
 ll dy(int c, int m){
 
@@ -34,9 +34,35 @@ ll dy(int c, int m){
 
 }
 
-ll dy2(int c, int m){
+void findAnswer(int c, int m){
 
+    if(c == N){
+        for(int i=0; i<N; i++)printf("%c", ans[i]);
+        return ;
+    }
+    else if(m == L){
+        ans[c] = '0';
+        findAnswer(c+1, m);
+        return ;
+    }
 
+    ll flg = dy(c+1, m);
+
+    if(l < flg){
+
+        ans[c] = '0';
+
+        findAnswer(c+1, m);
+
+    }else{
+
+        l -= flg;
+
+        ans[c] = '1';
+
+        findAnswer(c+1, m+1);
+
+    }
 
 }
 
@@ -46,9 +72,11 @@ int main(){
 
 	for(int i=0; i<N; i++)for(int j=0; j<=L; j++)dp[i][j] = -1;
 
+    l--;
+
 	dy(0, 0);
 
-
+    findAnswer(0, 0);
 
 }
 

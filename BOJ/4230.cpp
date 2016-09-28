@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <algorithm>
 #include <vector>
 
@@ -98,3 +100,43 @@ struct TwoSat
 		return solution;
 	}
 };
+
+char wi[5], hu[5];
+
+int main(){
+
+	int n, m;
+	while(scanf("%d %d", &n, &m) == 2){
+
+		if(!(n|m))break;
+
+		TwoSat sat;
+		sat.init(n+1);
+
+		for(int i=1; i<=m; i++){
+			scanf("%s %s", wi, hu);
+
+			int a = wi[0] - '0', b = hu[0] - '0';
+			a++, b++;
+
+			if(wi[1] == 'h')a *= -1;
+			if(hu[1] == 'h')b *= -1;
+
+			int ga = abs(a), gb = abs(b);
+
+			if(a < 0)ga = sat.negation(ga);
+			if(b < 0)gb = sat.negation(gb);
+
+			sat.addCNF(ga, gb);
+		}
+
+		vector <bool> ans = sat.solve();
+
+		if(ans.empty())printf("bad luck");
+		else{
+			for(int i=2; i<ans.size(); i++)printf("%d%c ", i-1, (ans[i]) ? 'h' : 'w');
+		}
+
+	}
+
+}

@@ -70,42 +70,50 @@ PII chinese_remainder_theorem(const VI &m, const VI &r) {
     return ret;
 }
 
-/* find a pair (c,d) s.t. ac + bd = gcd(a,b)
- * Dependencies: none */
-PIL extended_gcd(ll a, ll b) {
-    if (b == 0) return make_pair(1, 0);
-    PIL t = extended_gcd(b, a % b);
-    return {t.second, t.first - t.second * (a / b)};
-}
+int x[3], y[3], w, h, a, b;
 
-int extended_gcd(int a, int b, int &x, int &y) {
-    int xx = y = 0;
-    int yy = x = 1;
-    while (b) {
-        int q = a / b;
-        int t = b; b = a%b; a = t;
-        t = xx; xx = x - q*xx; x = t;
-        t = yy; yy = y - q*yy; y = t;
+int main(){
+
+    int t;
+    scanf("%d", &t);
+
+    while(t--){
+
+        scanf("%d %d", &w, &h);
+        for(int i=0; i<3; i++)scanf("%d %d", &x[i], &y[i]);
+        scanf("%d %d", &a, &b);
+
+        int g = gcd(a, b);
+
+        a /= g, b /= g;
+
+        int ans[] = {INT_MAX, INT_MAX, INT_MAX};
+
+        for(int i=1; i<=2; i++){
+
+            VII pt = {{x[i], y[i]}, {2*w - x[i], y[i]}, {x[i], 2*h - y[i]}, {2*w-x[i], 2*h-y[i]}};
+
+            for(int j=0; j<4; j++){
+
+                PII sol = chinese_remainder_theorem({2*w, 2*h}, {pt[j].first, pt[j].second});
+
+                printf("%d %d\n", sol.first, sol.second);
+                // a, b
+                
+                if(sol.first % a == 0 && sol.first % b == 0){
+                    ans[i] = min(abs(sol.first - pt[j].first) / a, ans[i]);
+                }
+
+            }
+
+        }
+
+        if(min(ans[1], ans[2]) == INT_MAX)printf("O\n");
+        else if(min(ans[1], ans[2]) == ans[1])printf("A\n");
+        else
+            printf("B\n");
+
     }
-    return a;
+
 }
 
-/* Find x in [0,m) s.t. ax ≡ gcd(a, m) (mod m)
- * Dependencies: extended_gcd(a, b) */
-ll modinverse(ll a, ll m) {
-    return (extended_gcd(a, m).first % m + m) % m;
-}
-
-/* Find a^p mod m */
-ll modpower(ll a, ll p, ll m){
-
-    ll r = 1;
-
-    while(p){
-        if(p&1)r = (r*a) % m;
-        a = (a*a) % m;
-        p >>= 1;
-    }
-
-    return r;
-}

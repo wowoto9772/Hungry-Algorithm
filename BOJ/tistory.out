@@ -1,26 +1,66 @@
 <pre class = "line-numbers"><code class = "language-cpp">#include &lt;stdio.h&gt;
 
-int gcd(int a, int b){
-	
-	int m = 1;
+#include &lt;vector&gt;
 
-	while(m){
-		m = a % b;
-		a = b;
-		b = m;
-	}
+using namespace std;
 
-	return a;
+using ll = long long;
 
-}
+class BIT{
+    public:
+        vector &lt;int&gt; T;
+        int S;
 
+        BIT(const int n){
+            S = n;
+            T.resize(S + 1);
+        }
+
+        void Update(int p, int v){
+            while (p &lt;= S){
+                T[p] += v;
+                p += p & (-p);
+            }
+        }
+
+        ll Sum(int p){
+            if(p == 0)return 0LL;
+            ll ret = 0;
+            while (p &gt; 0){
+                ret += T[p];
+                p -= p & (-p);
+            }return ret;
+        }
+
+};
+
+int e[500003];
 
 int main(){
 
-	int a,b;
-	scanf("%d %d", &a, &b);
+    int n;
+    scanf("%d", &n);
 
-	printf("%d\n", a+b-gcd(a,b));
+    BIT le(n), ri(n);
+
+    for(int i=1; i&lt;=n; i++){
+        scanf("%d", &e[i]);
+        ri.Update(e[i], 1);
+    }
+
+    ll ans = 0;
+
+    for(int i=1; i&lt;=n; i++){
+
+       ri.Update(e[i], -1);
+
+       ans += (le.Sum(n) - le.Sum(e[i])) * (ri.Sum(e[i]-1));
+
+       le.Update(e[i], 1);
+ 
+    }
+
+    printf("%lld\n", ans);
 
 }
 </code></pre>

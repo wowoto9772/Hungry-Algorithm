@@ -1,80 +1,23 @@
-#include <stdio.h>
-#include <algorithm>
-#include <vector>
-#include <queue>
+#include <cstdio>
+#include <cstring>
 
 using namespace std;
 
-int in[10003];
-int cnt[10003];
+char str[23];
 
-int main() {
+int main(){
 
-	int n, m;
-	scanf("%d %d", &n, &m);
+    scanf("%s", str);
 
-	vector < vector <int> > lnk;
-	lnk.resize(n + 1);
+    int s = strlen(str);
 
-	for (int i = 1; i <= m; i++) {
+    for(int i=0; i<s/2; i++){
+        if(str[i] != str[s-1-i]){
+            printf("false\n");
+            return 0;
+        }
+    }
 
-		int a, b;
-		scanf("%d %d", &a, &b);
+    printf("true\n");
 
-		lnk[b].push_back(a);
-
-	}
-
-	queue <int> q;
-
-	for (int i = 1; i <= n; i++) {
-
-		vector <bool> chk(n + 1);
-
-		q.push(i);
-
-		chk[i] = true;
-
-		while (!q.empty()) {
-
-			int f = q.front(); q.pop();
-
-			for (int j = 0; j < lnk[f].size(); j++) {
-
-				int g = lnk[f][j];
-
-				if (!chk[g]) {
-
-					cnt[i]++;
-
-					chk[g] = true;
-					q.push(g);
-
-				}
-
-			}
-
-		}
-
-	}
-
-
-	vector <int> p;
-	int c = -1;
-
-	for (int i = 1; i <= n; i++) {
-		if (c < cnt[i]) {
-			c = cnt[i];
-			p.clear();
-			p.push_back(i);
-		}
-		else if (c == cnt[i]) {
-			p.push_back(i);
-		}
-	}
-
-	sort(p.begin(), p.end());
-
-	for (int i = 0; i < p.size(); i++)printf("%d ", p[i]);
-
-} // cycle인 입력이 존재.
+}

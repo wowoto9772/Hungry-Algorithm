@@ -1,66 +1,49 @@
-<pre class = "line-numbers"><code class = "language-cpp">#include &lt;stdio.h&gt;
-
-#include &lt;vector&gt;
+<pre class = "line-numbers"><code class = "language-cpp">#include &lt;cstdio&gt;
+#include &lt;limits.h&gt;
+#include &lt;algorithm&gt;
 
 using namespace std;
 
-using ll = long long;
-
-class BIT{
-    public:
-        vector &lt;int&gt; T;
-        int S;
-
-        BIT(const int n){
-            S = n;
-            T.resize(S + 1);
-        }
-
-        void Update(int p, int v){
-            while (p &lt;= S){
-                T[p] += v;
-                p += p & (-p);
-            }
-        }
-
-        ll Sum(int p){
-            if(p == 0)return 0LL;
-            ll ret = 0;
-            while (p &gt; 0){
-                ret += T[p];
-                p -= p & (-p);
-            }return ret;
-        }
-
-};
-
-int e[500003];
+int d[253][253];
 
 int main(){
 
-    int n;
-    scanf("%d", &n);
-
-    BIT le(n), ri(n);
+    int n, m;
+    scanf("%d %d", &n, &m);
 
     for(int i=1; i&lt;=n; i++){
-        scanf("%d", &e[i]);
-        ri.Update(e[i], 1);
+        for(int j=1; j&lt;=n; j++)d[i][j] = INT_MAX;
+        d[i][i] = 0;
     }
 
-    ll ans = 0;
+    for(int i=1; i&lt;=m; i++){
+        int a, b, t;
+        scanf("%d %d %d", &a, &b, &t);
 
-    for(int i=1; i&lt;=n; i++){
-
-       ri.Update(e[i], -1);
-
-       ans += (le.Sum(n) - le.Sum(e[i])) * (ri.Sum(e[i]-1));
-
-       le.Update(e[i], 1);
- 
+        if(t)d[a][b] = d[b][a] = 0;
+        else
+            d[a][b] = 0, d[b][a] = 1;
     }
 
-    printf("%lld\n", ans);
+    for(int k=1; k&lt;=n; k++){
+        for(int i=1; i&lt;=n; i++){
+            if(d[i][k] == INT_MAX)continue;
+            for(int j=1; j&lt;=n; j++){
+                if(d[k][j] == INT_MAX)continue;
+                d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+            }
+        }
+    }
+
+    int q;
+    scanf("%d", &q);
+
+    while(q--){
+        int a, b;
+        scanf("%d %d", &a, &b);
+
+        printf("%d\n", d[a][b]);
+    }
 
 }
 </code></pre>

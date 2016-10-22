@@ -1,5 +1,4 @@
 #include <cstdio>
-
 using namespace std;
 
 char str[5][5];

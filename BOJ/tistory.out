@@ -1,48 +1,73 @@
 <pre class = "line-numbers"><code class = "language-cpp">#include &lt;cstdio&gt;
 #include &lt;limits.h&gt;
+#include &lt;cstring&gt;
+#include &lt;memory.h&gt;
 #include &lt;algorithm&gt;
 
 using namespace std;
 
-int d[253][253];
+int dp[103][103][103];
+char str[103], tar[103];
+int n;
 
-int main(){
+int dy(int c, int o, int z){
 
-    int n, m;
-    scanf("%d %d", &n, &m);
-
-    for(int i=1; i&lt;=n; i++){
-        for(int j=1; j&lt;=n; j++)d[i][j] = INT_MAX;
-        d[i][i] = 0;
-    }
-
-    for(int i=1; i&lt;=m; i++){
-        int a, b, t;
-        scanf("%d %d %d", &a, &b, &t);
-
-        if(t)d[a][b] = d[b][a] = 0;
-        else
-            d[a][b] = 0, d[b][a] = 1;
-    }
-
-    for(int k=1; k&lt;=n; k++){
-        for(int i=1; i&lt;=n; i++){
-            if(d[i][k] == INT_MAX)continue;
-            for(int j=1; j&lt;=n; j++){
-                if(d[k][j] == INT_MAX)continue;
-                d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
-            }
+    if(c == n){
+        if(o &gt; z)return INT_MAX&gt;&gt;2;
+        else{
+            int d = min(o, z);
+            o -= d;
+            z -= d;
+            return d + z;
         }
     }
 
-    int q;
-    scanf("%d", &q);
+    int &ret = dp[c][o][z];
 
-    while(q--){
-        int a, b;
-        scanf("%d %d", &a, &b);
+    if(ret != -1)return ret;
 
-        printf("%d\n", d[a][b]);
+    if(str[c] == tar[c]){
+        ret = dy(c+1, o, z);
+    }else{
+        if(str[c] == '?'){
+            ret = 1 + dy(c+1, o, z);
+            if(tar[c] == '1')ret = min(ret, 1 + dy(c+1, o, z+1));
+            else
+                ret = min(ret, 1 + dy(c+1, o+1, z));
+        }else{
+            if(str[c] == '1')ret = dy(c+1, o+1, z);
+            else
+                ret = dy(c+1, o, z+1);
+        }
+    }
+
+    return ret;
+
+}
+
+int main(){
+
+    int t;
+    scanf("%d", &t);
+
+    int tc = 0;
+
+    while(t--){
+
+        memset(dp, 0xff, sizeof(dp));
+
+        scanf("%s %s", str, tar);
+
+        printf("Case %d: ", ++tc);
+
+        n = strlen(str);
+
+        int flg = dy(0, 0, 0);
+
+        if(flg &gt;= (INT_MAX&gt;&gt;2))flg = -1;
+
+        printf("%d\n", flg);
+
     }
 
 }

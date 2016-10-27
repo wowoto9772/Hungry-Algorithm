@@ -7,7 +7,7 @@ int dp[10003][103];
 
 int dy(int w, int h){
 
-    if(w == 0 || h == 0)return 0;
+    if(w == h)return 1;
 
     if(w < h)swap(w, h);
 
@@ -17,12 +17,10 @@ int dy(int w, int h){
 
     ret = w * h;
 
-    int l = min(w,h);
-
-    for(int i=l; i >= 1; i--){
-        ret = min(ret, 1 + dy(w-i, h) + dy(i, h-i)); 
-        ret = min(ret, 1 + dy(w, h-i) + dy(w-i, i));
-    }                    
+    for(int i=h; i >= 1; i--){
+        ret = min(ret, dy(w-i, h) + dy(i, h));
+        ret = min(ret, dy(w, i) + dy(w, h-i));
+    }
 
     return ret;
 

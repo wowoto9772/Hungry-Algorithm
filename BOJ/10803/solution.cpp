@@ -18,8 +18,12 @@ int dy(int w, int h){
     ret = w * h;
 
     for(int i=h; i >= 1; i--){
-        ret = min(ret, dy(w-i, h) + dy(i, h));
         ret = min(ret, dy(w, i) + dy(w, h-i));
+    }
+    
+    int d = min(2*h, w);
+    for(int i=d; i>=1; i--){
+        ret = min(ret, dy(w-i, h) + dy(i, h));
     }
 
     return ret;

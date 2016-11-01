@@ -1,7 +1,6 @@
 #include <cstdio>
 #include <queue>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
@@ -83,8 +82,7 @@ int main(){
     int n, m;
     scanf("%d %d", &n, &m);
 
-    BipartiteMatching btm(n, m);
-
+    BipartiteMatching btm(n,m);
     for(int i=0; i<n; i++){
         int c;
         scanf("%d", &c);
@@ -100,19 +98,21 @@ int main(){
     vector <int> a, b;
 
     for(int i=0; i<n; i++){
-        if(btm.match[i] == -1)continue;
-        if(btm.match[i] == i)a.push_back(i);
-        else
-            b.push_back(btm.match[i]);
+        if(btm.reached[0][i] == 0){
+            a.push_back(i);
+        }
+    }
+    for(int i=0; i<m; i++){
+        if(btm.reached[1][i] == 1){
+            b.push_back(i);
+        }
     }
 
-    printf("%d", a.size());
-    sort(a.begin(), a.end());
-    for(int i=0; i<a.size(); i++)printf(" %d", ++a[i]);
+    printf("%d ", a.size());
+    for(auto &e : a)printf("%d ", e+1);
     printf("\n");
-    printf("%d", b.size());
-    sort(b.begin(), b.end());
-    for(int i=0; i<b.size(); i++)printf(" %d", ++b[i]);
+    printf("%d ", b.size());
+    for(auto &e: b)printf("%d ", e+1);
     printf("\n");
 
 }

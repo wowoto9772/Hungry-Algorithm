@@ -1,75 +1,40 @@
 #include <cstdio>
-#include <vector>
+#include <cstring>
 #include <algorithm>
- 
-using ll = long long;
- 
+
 using namespace std;
- 
+
+char str[103];
+int d[103];
+
 int main(){
- 
-    int n, T;
-    scanf("%d %d", &n, &T);
- 
-    vector <int> e(n);
- 
-    for (int i = 0; i < n; i++){
-        scanf("%d", &e[i]);
+
+    scanf("%s", str+1);
+
+    int s = strlen(str+1);
+
+    for(int i=1; i<=s; i++){
+        d[i] = d[i-1] + str[i] - '0';
     }
- 
-    vector <int> ans;
- 
-    int l = 0, r = 1000000000, m;
- 
-    while (l <= r){
- 
-        m = (l + r) / 2;
-        vector <int> t = e;
- 
-        ll cst = 0;
- 
-        for (int i = 0; i < n-1; i++){
-            int v = abs(t[i] - t[i + 1]);
-            if (v > m){
-                if (t[i] > t[i + 1]){
-                    int g = (t[i + 1] + m);
-                    cst += t[i] - g;
-                    t[i] = g;
-                }
-                else{
-                    int g = (t[i] + m);
-                    cst += t[i + 1] - g;
-                    t[i + 1] = g;
-                }
+
+    int ans = 0;
+
+    for(int m=1; m<=s/2; m++){
+
+        int c = 0;
+        bool p = false;
+        for(int i=m; i<=s-m && !p; i++){
+            if(d[i] - d[i-m] == d[i+m] - d[i]){
+                p = true;
             }
         }
- 
-        for (int i = n - 1; i >= 1; i--){
-            int v = abs(t[i] - t[i - 1]);
-            if (v > m){
-                if (t[i] > t[i - 1]){
-                    int g = (t[i - 1] + m);
-                    cst += t[i] - g;
-                    t[i] = g;
-                }
-                else{
-                    int g = (t[i] + m);
-                    cst += t[i - 1] - g;
-                    t[i - 1] = g;
-                }
-            }
+
+        if(p){
+            ans = max(ans, m);
         }
- 
-        if (cst <= T){
-            ans = t;
-            r = m - 1;
-        }
-        else{
-            l = m + 1;
-        }
- 
+
     }
- 
-    for (int i = 0; i < ans.size(); i++)printf("%d ", ans[i]);
- 
+
+    printf("%d\n", ans<<1);
+
 }

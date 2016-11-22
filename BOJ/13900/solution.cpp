@@ -14,6 +14,7 @@ class BIT{
         BIT(int n) : S(n), T(n+1) {}
 
         void Update(int p, int v){
+            if(p == 0)return ;
             while (p <= S){
                 T[p] += v;
                 p += p & (-p);

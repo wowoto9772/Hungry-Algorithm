@@ -19,11 +19,11 @@ int main(){
     int n, k;
     scanf("%d %d", &n, &k);
 
-    vector <int> chk(200003, 200003);
+    vector <bool> chk(200003);
     vector <int> rev(200003, -1);
 
     queue < ele > q;
-    chk[n] = 0;
+    chk[n] = true;
     q.emplace(n, 0);
 
     while(!q.empty()){
@@ -43,19 +43,19 @@ int main(){
         f.c++;
         int v = 2;
         if(f.p && f.p*v <= 200000){
-            if(chk[f.p*v] > f.c){
-                chk[f.p*v] = f.c;
+            if(!chk[f.p*v]){
+                chk[f.p*v] = true;
                 rev[f.p*v] = f.p;
                 q.emplace(f.p*v, f.c);
             }
         }
-        if(f.p >= 0 && chk[f.p-1] > f.c){
-            chk[f.p-1] = f.c;
+        if(f.p >= 0 && !chk[f.p-1]){
+            chk[f.p-1] = true;
             rev[f.p-1] = f.p;
             q.emplace(f.p-1, f.c);
         }
-        if(f.p+1 <= 200000 && chk[f.p+1] > f.c){
-            chk[f.p+1] = f.c;
+        if(f.p+1 <= 200000 && !chk[f.p+1]){
+            chk[f.p+1] = true;
             rev[f.p+1] = f.p;
             q.emplace(f.p+1, f.c);
         }

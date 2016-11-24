@@ -27,7 +27,7 @@ int main(){
     for(int i=1; i<=k; i++){
         int a;
         scanf("%d", &a);
-        parent[a] = n+1;
+        parent[a] = 0;
     }
 
     vector <ele> edge(m);

@@ -56,7 +56,9 @@ int main(){
     for(int i=1; i<=q; i++){
         int x;
         scanf("%d", &x);
-        for(int j=1; j<n; j++)d[dt][j] += j*x;
+        for(int j=1; j<n; j++){
+            if(d[dt][j] != LLONG_MAX)d[dt][j] += j*x;
+        }
 
         ll ans = LLONG_MAX;
         for(int j=1; j<n; j++){

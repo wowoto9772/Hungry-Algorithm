@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// max heap
+// min heap
 int heap[1<<20];
 int size;
 

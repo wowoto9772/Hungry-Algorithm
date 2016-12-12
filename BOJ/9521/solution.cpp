@@ -31,7 +31,7 @@ int main(){
 	}
 
 	ll ans = 1;
-	int top = 0;
+	int top = 1;
 	int pre = 0; // pre_processed
 
 	for (int i = 1; i <= n; i++){
@@ -48,7 +48,7 @@ int main(){
 				break;
 			}
 			else{
-				order[cur] = ++top;
+				order[cur] = top++;
 				cur = nxt[cur];
 			}
 		}

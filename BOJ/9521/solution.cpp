@@ -1,11 +1,12 @@
-#include <stdio.h>
-#define mod 1000000007LL
+#include <cstdio>
 
-#define ll long long
+using namespace std;
 
-int f[1000003];
-int dp[1000003]; 
-// dp[x] : x's order
+using ll = long long;
+const ll lmod = 1000000007LL;
+
+int nxt[1000003];
+int order[1000003]; 
 
 ll color[1000003] = { 1, };
 
@@ -16,53 +17,50 @@ int main(){
 	scanf("%d %lld", &n, &k);
 
 	color[1] = k;
-	color[2] = (k*(k - 1)) % mod;
-	color[3] = (k*(k - 1)*(k - 2)) % mod;
+	color[2] = (k*(k - 1)) % lmod;
+	color[3] = (k*(k - 1)*(k - 2)) % lmod;
 
 	for (int i = 4; i <= n; i++){
-		color[i] = (k - 1)*color[i - 2];
-		color[i] += (k - 2)*color[i - 1];
-		color[i] %= mod;
+		color[i] = (k - 1) * color[i - 2];
+		color[i] += (k - 2) * color[i - 1];
+		color[i] %= lmod;
 	}
 
 	for (int i = 1; i <= n; i++){
-		scanf("%d", &f[i]);
+		scanf("%d", &nxt[i]);
 	}
 
 	ll ans = 1;
-	int tot = 1;
-
+	int top = 0;
 	int pre = 0; // pre_processed
 
 	for (int i = 1; i <= n; i++){
-		if (dp[i])continue;
 
-		int tmp;
+		if (order[i])continue;
+
+		int len = 0;
 		int cur = i;
-		while (true){
-			// count 'current components' (cycle)
-			if (dp[cur]){
-				if (dp[cur] < dp[i])tmp = 0; // pre processed
+		while (true){ // find cycle's length
+			if (order[cur]){
+				if (order[cur] < order[i])len = 0; // prev cycle
 				else
-					tmp = tot - dp[cur];
-
+				    len = top - order[cur]; // new cycle
 				break;
 			}
 			else{
-				dp[cur] = tot++;
-				cur = f[cur];
+				order[cur] = ++top;
+				cur = nxt[cur];
 			}
 		}
 
-		pre += tmp;
-		ans *= color[tmp]; // color on past
-		ans %= mod;
+		pre += len;
+		ans *= color[len];
+		ans %= lmod;
 	}
 
-	for (int i = 1; i <= n - pre; i++){ 
-		// have to proess
+	for (int i = 1; i <= n - pre; i++){ // not yet
 		ans *= k - 1;
-		ans %= mod;
+		ans %= lmod;
 	}
 
 	printf("%lld\n", ans);

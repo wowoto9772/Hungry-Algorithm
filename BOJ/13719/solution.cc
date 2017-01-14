@@ -1,8 +1,9 @@
 #include <cstdio>
 
+using ll = long long;
 using namespace std;
 
-int e[1000003];
+ll e[1000003];
 
 int main(){
 

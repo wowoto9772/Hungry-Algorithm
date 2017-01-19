@@ -6,75 +6,64 @@
 using namespace std;
 using ll = long long;
 
-class ele{
-public:
-	int x, y;
-	bool operator<(const ele &A)const{
-        if(x == A.x)return y < A.y;
-        return x > A.x;
-	}
-}e[1000003];
-
 class BIT{
-public:
-	vector <int> T;
+    public:
+        vector <int> T;
 
-	int S;
+        int S;
 
-	BIT(const int n){
-		S = n;
-		T.resize(S + 1);
-	}
+        BIT(const int n){
+            S = n;
+            T.resize(S + 1);
+        }
 
-	void Update(int p, int v){
-		while (p <= S){
-			T[p] += v;
-			p += p & (-p);
-		}
-	}
+        void Update(int p, int v){
+            while (p <= S){
+                T[p] += v;
+                p += p & (-p);
+            }
+        }
 
-	ll Sum(int p){
-		ll ret = 0;
-		while (p > 0){
-			ret += T[p];
-			p -= p & (-p);
-		}return ret;
-	}
+        ll Sum(int p){
+            ll ret = 0;
+            while (p > 0){
+                ret += T[p];
+                p -= p & (-p);
+            }return ret;
+        }
 };
 
 int main()
 {
-	int t;
-	scanf("%d", &t);
+    int t;
+    scanf("%d", &t);
 
     int tc = 0;
 
     while(t--){
-		ll ans = 0;
 
-		int n, m, k;
-		scanf("%d %d %d", &n, &m, &k);
+        int n, m, k;
+        scanf("%d %d %d", &n, &m, &k);
 
-		BIT SX(n);
-		BIT SY(m);
+        vector < pair <int,int> > e(k);
 
-		for (int i = 0; i < k; i++){
-			scanf("%d %d", &e[i].x, &e[i].y);
-			SX.Update(e[i].x, 1);
-			SY.Update(e[i].y, 1);
-		}
+        for (int i = 0; i < k; i++){
+            scanf("%d %d", &e[i].first, &e[i].second);
+        }
 
-		sort(e, e + k);
+        BIT S(m);
 
-		for (int i = k-1; i >= 0; i--){
-			SX.Update(e[i].x, -1);
-			SY.Update(e[i].y, -1);
-			int x = SX.Sum(e[i].x); // count that X less than or equal to e[i].x
-			int y = SY.Sum(m) - SY.Sum(e[i].y - 1); // count that Y greater than or equal to e[i].y
+        sort(e.begin(), e.end());
 
-			ans += i - (x+y); // count that X greater than e[i].x and Y less than e[i].y
-		}
+        ll ans = 0;
 
-		printf("Test case %d: %lld\n", ++tc, ans);
-	}
+        for (int i = e.size()-1; i >= 0; i--){
+            ans += S.Sum(e[i].second-1); 
+
+            // count that X greater than or equal to e[i].x and Y less than e[i].y
+            S.Update(e[i].second, 1);
+        }
+
+        printf("Test case %d: %lld\n", ++tc, ans);
+    }
 }

@@ -32,7 +32,7 @@ int main(){
 
     for(int k=1; k<=n/2; k++){
         for(int i=1; i<=n-k; i++){
-            for(int j=i+k; j+k <= n; j++){
+            for(int j=i+k; j+k-1 <= n; j++){
                 ll t = s[i][k] - s[j][k];
                 t = abs(t);
                 if(ans >= t)ans = t, v = k;

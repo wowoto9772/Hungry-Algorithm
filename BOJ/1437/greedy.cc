@@ -8,7 +8,6 @@ int main(){
     scanf("%d", &n);
 
     int c = 1;
-    if(n == 0)c = 0;
 
     while(n >= 5){
         c *= 3;
@@ -16,9 +15,6 @@ int main(){
         n -= 3;
     }
 
-    if(n == 2 || n == 4)c *= n;
-    else if(n == 3)c *= 3;
-
-    printf("%d\n", c%10007);
+    printf("%d\n", (n*c)%10007);
 
 }

@@ -9,7 +9,6 @@ class ele{
         ele(){}
         ele(int _s, int _d){s = _s, d = _d;}
         bool operator<(const ele &A)const{
-            if(d == A.d)return s < A.s;
             return d < A.d;
         }
 }e[100003];

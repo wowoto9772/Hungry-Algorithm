@@ -109,10 +109,17 @@ namespace hung
 }
 
 int main() {
-	int ans = 0;
 	scanf("%d", &hung::n);
 	int n = hung::n;
-	for(int i=0;i<n;i++) for(int j=0;j<n;j++) scanf("%d", &hung::dat[i][j]);
+    int mv = 10003;
+	for(int i=0;i<n;i++) for(int j=0;j<n;j++) {
+        scanf("%d", &hung::dat[i][j]);
+        if(mv > hung::dat[i][j])mv = hung::dat[i][j];
+    }
+    for(int i=0; i<n; i++)for(int j=0; j<n; j++)hung::dat[i][j] -= mv;
+
+    int ans = mv*n + hung::solve();
+
 	printf("%d", hung::solve());
 	return 0;
 }

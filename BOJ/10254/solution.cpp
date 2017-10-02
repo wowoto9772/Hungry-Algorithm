@@ -1,100 +1,95 @@
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 #include <algorithm>
-#define ll long long
 
+using ll = long long;
 using namespace std;
 
-class point{
-public:
-	int x, y;
-	bool operator<(const point &A)const{
-		if (x == A.x)return y < A.y;
-		return x < A.x;
-	}
+struct point{
+    int x, y;
+    bool operator<(const point &A)const{
+        if(x == A.x)return y < A.y;
+        return x < A.x;
+    }
 };
 
-ll dist(point &a, point &b){
-	ll l = (a.x - b.x);
-	l *= l;
-	ll r = (a.y - b.y);
-	r *= r;
-	return  l + r;
+int ccw(const point &a, const point &b, const point &c) {
+    ll dx1, dx2, dy1, dy2;
+    dx1 = b.x - a.x;
+    dy1 = b.y - a.y;
+    dx2 = c.x - b.x;
+    dy2 = c.y - b.y;
+    ll ret = dx1*dy2 - dx2*dy1;
+    if (ret < 0)return -1;
+    else if (ret > 0)return 1;
+    else return 0;
 }
 
-int ccw(point &a, point &b, point &c) {
-	ll dx1, dx2, dy1, dy2;
-	dx1 = b.x - a.x;
-	dy1 = b.y - a.y;
-	dx2 = c.x - b.x;
-	dy2 = c.y - b.y;
+struct ConvexHull {
+    vector <point> pts;
+    /* return convex hull's size. and v-1 is the number of convex hull's points */
+    vector <point> convex() {
+        int n = pts.size();
+        vector <point> u, d;
 
-	ll ret = dx1*dy2 - dx2*dy1;
-	if (ret < 0)return -1;
-	else if (ret > 0)return 1;
-	else
-		return 0;
-}
+        sort(pts.begin(), pts.end()); // sort x and y
+        for (int i = 0; i < n; i++) {
+            while (u.size() >= 2 && ccw(u[u.size()-2], u.back(), pts[i]) < 0)
+                u.pop_back();
 
-point node[200003], up[200003], down[200003];
-point cv[200003];
-int n;
+            u.push_back(pts[i]);
 
-int convex_hull() {
-	int iup, idown;
-	idown = iup = -1;
+            while (d.size() >= 2 && ccw(d[d.size()-2], d.back(), pts[i]) > 0)
+                d.pop_back();
 
-	sort(node, node + n);
+            d.push_back(pts[i]);
+        }
+        u.insert(u.end(), next(d.rbegin()), prev(d.rend()));
+        return u;
+    }
+};
 
-	int cnt;
-
-	for (int i = 0; i < n; i++) {
-		while (iup>0 && ccw(up[iup - 1], up[iup], node[i]) >= 0)iup--;
-		up[++iup] = node[i];
-		while (idown > 0 && ccw(down[idown - 1], down[idown], node[i]) <= 0)idown--;
-		down[++idown] = node[i];
-	}
-
-
-	for (cnt = 0; cnt <= iup; cnt++) {
-		cv[cnt] = up[cnt];
-	}
-	for (int i = idown - 1; i >= 0; i--) {
-		cv[cnt++] = down[i];
-	}
-
-	return cnt; // convex hull's size
+ll dist(const point &a, const point &b){
+    ll l = (a.x - b.x), r = (a.y - b.y);
+    return l*l + r*r;
 }
 
 int main(){
-	int t;
-	scanf("%d", &t);
 
-	while (t--){
-		scanf("%d", &n);
+    int t;
+    scanf("%d", &t);
 
-		for (int i = 0; i < n; i++){
-			scanf("%lld %lld", &node[i].x, &node[i].y);
-		}
+    while(t--){
 
-		int top = convex_hull();
-		ll max = 0;
-		int a = 0, b = 0;
+        int n;
+        scanf("%d", &n);
 
-		int e = 0;
-		for (int s = 0; s < top; s++){
-			while (dist(cv[s], cv[e]) < dist(cv[s], cv[(e + 1) % top])){
-				e = (e + 1) % top;
-			}
+        vector <point> v(n);
+        for(int i=0; i<n; i++)scanf("%d %d", &v[i].x, &v[i].y);
+        ConvexHull cv;
+        cv.pts = v;
+        vector <point> ans = cv.convex();
 
-			ll tmax = dist(cv[s], cv[e]);
-			if (max < tmax){
-				max = tmax;
-				a = s, b = e;
-			}
+        int l = 0, r = 0;
+        int x = 0, y = 0;
+        ll tmp = 0;
 
-		}
+        while(l < ans.size()){
+            ll d = dist(ans[l], ans[r]);
+            if(tmp < d){
+                tmp = d;
+                x = l, y = r;
+            }
+            ll nd = dist(ans[l], ans[(r+1) % ans.size()]);
+            if(d <= nd){
+                r++;
+                r %= ans.size();
+            }else{
+                l++;
+            }
+        }
 
-		printf("%d %d %d %d\n", cv[a].x, cv[a].y, cv[b].x, cv[b].y);
-	}
+        printf("%d %d %d %d\n", ans[x].x, ans[x].y, ans[y].x, ans[y].y);
+    }
+
 }

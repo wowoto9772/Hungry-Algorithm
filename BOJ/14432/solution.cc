@@ -23,11 +23,9 @@ void dfs(int c){
     }
 
     w[c] -= v;
-
     for(auto &e : lnk[c]){
         w[e] -= v;
     }
-
     ans += v;
     
 }

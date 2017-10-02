@@ -38,9 +38,11 @@ int main(){
 	}
 
 	int ans = 0;
+
 	if (e[0][0] == 0)ans = 1 + dy(0, 0, 1);
 	else
 		ans = dy(0, 0, 0);
+
 	printf("%d\n", ans);
 
 }

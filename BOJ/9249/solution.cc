@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <vector>
 #include <algorithm>
 
@@ -63,24 +63,12 @@ int main()
 
 	int le = strlen(str[0]);
 	int ri = strlen(str[1]);
-
-	if (le < ri) {
-		
-		for (int i = 0; i < ri; i++)S[i + 1] = str[1][i];
-		for (int i = 0; i < le; i++)S[i + ri + 1] = str[0][i];
-		
-		swap(le, ri);
-
-	}
-	else {
-
-		for (int i = 0; i < le; i++)S[i + 1] = str[0][i];
-		for (int i = 0; i < ri; i++)S[i + le + 1] = str[1][i];
-
-	}
+    
+    for(int i=0; i<le; i++)S[1+i] = str[0][i];
+    S[le+1] = '#';
+    for(int i=0; i<ri; i++)S[le+2+i] = str[1][i];
 
 	N = strlen(S + 1);
-
 	SuffixArray(); LCP();
 
 	int ans = -1;
@@ -88,8 +76,8 @@ int main()
 
 	for (int i = 2; i <= N; i++) {
 		if (ans < lcp[i]) {
-			if (SA[i-1] > le && SA[i] > le)continue; // only second two string
-			if (SA[i - 1] <= le && SA[i] <= le)continue; // only first two string
+			if (SA[i-1] > le+1 && SA[i] > le+1)continue; // only second two string
+			if (SA[i-1] < le+1 && SA[i] < le+1)continue; // only first two string
 			ans = lcp[i];
 			p = SA[i];
 		}
@@ -102,4 +90,4 @@ int main()
 		ans--;
 	}
 
-}
+} 

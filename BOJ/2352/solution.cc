@@ -27,10 +27,6 @@ int main()
 
 	int le = lis(a);
 
-	reverse(a.begin(), a.end());
-
-	int ri = lis(a);
-
-	printf("%d\n", max(le, ri));
+	printf("%d\n", le);
 
 }

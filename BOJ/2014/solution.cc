@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <queue>
 #include <set>
 #include <vector>
@@ -24,7 +24,7 @@ int main(){
 
 	sort(p, p + n);
 
-	ll max = 0;
+	ll maxValue = p[n-1];
 
 	int c = 0;
 	while (!q.empty()){
@@ -37,17 +37,17 @@ int main(){
 		}
 
 		for (int i = 0; i < n; i++){
-
 			ll v = f * p[i];
 
-			if (q.size() > (k-c) && max < v){
-				break;
-			}
+			if (q.size() >= k-c && maxValue < v)continue;
+			if (v > (1LL<<31))break;
 
 			if (chk.find(v) == chk.end()){
-				if (max < v)max = v;
-				chk.insert(v);
+				if (maxValue < v){
+					maxValue = v;
+				}
 				q.push(-v);
+				chk.insert(v);
 			}
 		}
 	}

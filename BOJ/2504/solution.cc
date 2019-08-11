@@ -1,5 +1,7 @@
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
+
+using namespace std;
 
 char str[33];
 int lev[33];
@@ -12,15 +14,15 @@ int main(){
 	int stk[33] = { 0 };
 	int top = 0;
 
+    bool flag = false;
 	int ans = 0;
-	int ans2 = 0;
-	for (int i = 0; i < s; i++){
+
+	for (int i = 0; i < s && !flag; i++){
 		if (str[i] == '(')stk[top++] = 2;
 		else if (str[i] == '[')stk[top++] = 3;
 		else if (str[i] == ')'){
 			if (top == 0 || stk[top - 1] == 3){
-				ans = 0;
-				break;
+				flag = true;
 			}
 			else{
 				top--;
@@ -33,8 +35,7 @@ int main(){
 		}
 		else if (str[i] == ']'){
 			if (top == 0 || stk[top - 1] == 2){
-				ans = 0;
-				break;
+				flag = true;
 			}
 			else{
 				top--;
@@ -48,5 +49,7 @@ int main(){
 		}
 	}
 
-	printf("%d\n", lev[0]);
+    if(flag)printf("0");
+	else
+        printf("%d\n", lev[0]);
 }
